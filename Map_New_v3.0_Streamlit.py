@@ -10,6 +10,7 @@ import tempfile
 import os
 import zipfile
 from pathlib import Path
+from branca.element import Element
 
 st.set_page_config(page_title="Color Map Automation", layout="wide")
 st.title("🗺️ Color Map Automation")
@@ -122,13 +123,13 @@ if excel_file and selected_map_file != "-- Upload New Map --":
                                 icon=folium.DivIcon(html=f'<div style="font-size: 10pt; font-weight: bold; color: black;">{label}</div>')
                             ).add_to(m)
 
-                    legend_html = f'<b>{metric_col}</b><br>'
+                    legend_html = f'''<div style="position: fixed; top: 10px; right: 10px; z-index: 9999; background-color: white; padding: 10px; border: 2px solid black; font-size: 14px;">
+                        <b>{metric_col}</b><br>'''
                     for color, label in color_map.items():
-                        legend_html += f'<i style="background: {color}; width: 10px; height: 10px; display: inline-block;"></i> {label}<br>'
-                    folium.Marker(
-                        location=[0, 0],
-                        icon=folium.DivIcon(html=f'<div style="position: fixed; top: 10px; right: 10px; background: white; padding: 10px; border: 1px solid black; font-size:14px; z-index:9999;">{legend_html}</div>')
-                    ).add_to(m)
+                        legend_html += f'<i style="background:{color};width:10px;height:10px;display:inline-block;margin-right:5px;"></i> {label}<br>'
+                    legend_html += '</div>'
+
+                    m.get_root().html.add_child(Element(legend_html))
 
                     html_path = f"{metric_col}_interactive_map.html"
                     m.save(html_path)
