@@ -130,11 +130,10 @@ if excel_file and selected_map_file != "-- Upload New Map --":
                         icon=folium.DivIcon(html=f'<div style="position: fixed; top: 10px; right: 10px; background: white; padding: 10px; border: 1px solid black; font-size:14px; z-index:9999;">{legend_html}</div>')
                     ).add_to(m)
 
-                    st.subheader(f"{metric_col} - Interactive Map")
-                    st_folium(m, width=800, height=500)
-
                     html_path = f"{metric_col}_interactive_map.html"
                     m.save(html_path)
+                    output_files.append(html_path)
+
                     with open(html_path, "r", encoding="utf-8") as f:
                         html_data = f.read()
                     st.download_button(
@@ -143,7 +142,6 @@ if excel_file and selected_map_file != "-- Upload New Map --":
                         file_name=html_path,
                         mime="text/html"
                     )
-                    output_files.append(html_path)
 
                 else:
                     merged_proj = merged.to_crs(epsg=3857)
