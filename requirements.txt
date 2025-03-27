@@ -5,3 +5,5 @@ matplotlib
 folium
 streamlit-folium
 openpyxl
+xlsxwriter
+fpdf
